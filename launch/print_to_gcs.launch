@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="print_to_gcs" type="print_to_gcs.py" name="Print_to_GCS" output="log">
+  </node>
+</launch>
