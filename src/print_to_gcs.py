@@ -2,6 +2,9 @@
 # coding=utf-8
 from __future__ import print_function
 
+from PIL import Image
+import numpy as np
+
 import rospy
 import message_filters
 
@@ -59,6 +62,8 @@ class Print_to_gcs:
 
                 if msg_obj.detections[i].results[0].id == 1:
                     print("\t\t** Person funnet! **")
+                    data = msg_obj.detections[i].source_img.data
+                    print(type(data))
 
         else:
             print("\nIngen objekter funnet")
