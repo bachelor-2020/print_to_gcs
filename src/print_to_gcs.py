@@ -17,7 +17,7 @@ class Print_to_gcs:
         rospy.init_node("print_to_gcs")
 
         sub_object_detection = message_filters.Subscriber(
-            "/objects", Detection2DArray, queue_size=1
+            "objects", Detection2DArray, queue_size=1
         )
 
         # sub_gps = message_filters.Subscriber(
