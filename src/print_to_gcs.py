@@ -17,17 +17,19 @@ class Print_to_gcs:
         rospy.init_node("print_to_gcs")
 
         sub_object_detection = message_filters.Subscriber(
-            "objects", Detection2DArray, queue_size=1
+            "/objects", Detection2DArray, queue_size=1
         )
 
-        sub_gps = message_filters.Subscriber(
-            "mavros/global_position/global", NavSatFix, queue_size=1
-        )  # Fra Ardupilot
+        # sub_gps = message_filters.Subscriber(
+        #     "mavros/global_position/global", NavSatFix, queue_size=1
+        # )  # Fra Ardupilot
 
-        # sub_gps = message_filters.Subscriber("gps/fix", NavSatFix, queue_size=1)  # FakeGPS
+        sub_gps = message_filters.Subscriber(
+            "gps/fix", NavSatFix, queue_size=10
+        )  # FakeGPS
 
         msg_sync = message_filters.ApproximateTimeSynchronizer(
-            [sub_object_detection, sub_gps], 10, 0.1
+            [sub_object_detection, sub_gps], 1, 0.1
         )
         msg_sync.registerCallback(self.print_to_gcs)
 
