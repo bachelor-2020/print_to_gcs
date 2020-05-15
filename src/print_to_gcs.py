@@ -4,7 +4,6 @@ from __future__ import print_function
 
 import PIL.Image
 import numpy as np
-from StringIO import StringIO
 
 import rospy
 import message_filters
@@ -69,15 +68,16 @@ class Print_to_gcs:
 
                 if msg_box.bounding_boxes[i].id == 0:
                     print("\t\t** Person funnet! **")
-                    # data = bytes(msg_image.data)
-                    # data_array = np.frombuffer(msg_image.data, dtype=np.uint8)
 
                     img = PIL.Image.frombytes(
-                        "RGB", (msg_image.height, msg_image.width), msg_image.data
+                        "RGB",
+                        (msg_image.height, msg_image.width),
+                        msg_image.data,
+                        "raw",
                     )
-                    # img = PIL.Image.fromarray("RGB", data_array)
                     print(type(img))
-                    img.save("test-[i].jpg")
+                    print(img.mode, img.size)
+                    img.save("/tmp/test{}.png".format(msg_gps.header.stamp.secs))
 
         else:
             print("\nIngen objekter funnet")
