@@ -2,10 +2,11 @@
 # coding=utf-8
 from __future__ import print_function
 
-import PIL.Image
-import numpy as np
-
 import rospy
+
+import cv2
+
+from cv_bridge import CvBridge
 import message_filters
 
 from sensor_msgs.msg import NavSatFix
@@ -69,15 +70,16 @@ class Print_to_gcs:
                 if msg_box.bounding_boxes[i].id == 0:
                     print("\t\t** Person funnet! **")
 
-                    img = PIL.Image.frombytes(
-                        "RGB",
-                        (msg_image.height, msg_image.width),
-                        msg_image.data,
-                        "raw",
+                    bridge = CvBridge()
+
+                    img = bridge.imgmsg_to_cv2(msg_image, "bgr8")
+
+                    cv2.imwrite(
+                        "/tmp/test{}-{}.png".format(
+                            msg_gps.header.stamp.secs, msg_gps.header.stamp.nsecs
+                        ),
+                        img,
                     )
-                    print(type(img))
-                    print(img.mode, img.size)
-                    img.save("/tmp/test{}.png".format(msg_gps.header.stamp.secs))
 
         else:
             print("\nIngen objekter funnet")
