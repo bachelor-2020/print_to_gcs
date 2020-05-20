@@ -60,7 +60,7 @@ class Print_to_gcs:
                     img = bridge.imgmsg_to_cv2(msg_image, "bgr8")
                     retval, jpg = cv2.imencode('.jpg', img)
 
-                    requests.post("http://app:5000/api/drones/0/findings",
+                    requests.post("http://app:5000/api/findings",
                                   json={
                                       "position": {
                                           "latitude": msg_gps.latitude,
