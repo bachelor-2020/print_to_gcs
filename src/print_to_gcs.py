@@ -16,6 +16,8 @@ from sensor_msgs.msg import NavSatFix
 from sensor_msgs.msg import Image
 from darknet_ros_msgs.msg import BoundingBoxes
 
+# IP adresse for bakkestasjon
+GCS_IP = "192.168.4.2"
 
 class Print_to_gcs:
     def __init__(self):
@@ -60,7 +62,7 @@ class Print_to_gcs:
                     img = bridge.imgmsg_to_cv2(msg_image, "bgr8")
                     retval, jpg = cv2.imencode('.jpg', img)
 
-                    requests.post("http://app:5000/api/findings",
+                    requests.post("http://" + GCS_IP + ":5000/api/findings",
                                   json={
                                       "position": {
                                           "latitude": msg_gps.latitude,
