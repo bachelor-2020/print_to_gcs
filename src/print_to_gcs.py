@@ -44,7 +44,7 @@ class Print_to_gcs:
         )
         msg_sync.registerCallback(self.print_to_gcs)
 
-        self.rate = rospy.Rate(2)
+        self.rate = rospy.Rate(10)
 
     def print_to_gcs(self, msg_image, msg_box, msg_gps):
         if msg_gps.status.status < 0:
